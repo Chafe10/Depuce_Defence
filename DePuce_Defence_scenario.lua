@@ -1,0 +1,43 @@
+version = 3
+ScenarioInfo = {
+    name = 'DePuce Defence BETA V2',
+    description = 'Defend Commander DePuce from enemy forces and slaughter any foe that tries to attack him.',
+    type = 'campaign_coop',
+    starts = true,
+    preview = '',
+    size = {4096, 4096},
+    map = '/maps/SCMP_030/SCMP_030.scmap',
+    save = '/maps/DePuce_Defence/DePuce_Defence_save.lua',
+    script = '/maps/DePuce_Defence/DePuce_Defence_script.lua',
+    norushradius = 0.000000,
+    norushoffsetX_Cybran = 0.000000,
+    norushoffsetY_Cybran = 0.000000,
+    norushoffsetX_Order = 0.000000,
+    norushoffsetY_Order = 0.000000,
+    norushoffsetX_Seraphim = 0.000000,
+    norushoffsetY_Seraphim = 0.000000,
+    norushoffsetX_Civilians = 0.000000,
+    norushoffsetY_Civilians = 0.000000,
+    norushoffsetX_DePuce = 0.000000,
+    norushoffsetY_DePuce = 0.000000,
+    norushoffsetX_Player1 = 0.000000,
+    norushoffsetY_Player1 = 0.000000,
+    norushoffsetX_Player2 = 0.000000,
+    norushoffsetY_Player2 = 0.000000,
+    norushoffsetX_Player3 = 0.000000,
+    norushoffsetY_Player3 = 0.000000,
+    norushoffsetX_Player4 = 0.000000,
+    norushoffsetY_Player4 = 0.000000,
+    norushoffsetX_Player5 = 0.000000,
+    norushoffsetY_Player5 = 0.000000,
+    norushoffsetX_Player6 = 0.000000,
+    norushoffsetY_Player6 = 0.000000,
+    Configurations = {
+        ['standard'] = {
+            teams = {
+                { name = 'FFA', armies = {'Cybran','Order','Seraphim','Civilians','DePuce','Player1','Player2','Player3','Player4','Player5','Player6',} },
+            },
+            customprops = {
+            },
+        },
+    }}
