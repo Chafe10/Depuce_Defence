@@ -1,12 +1,4 @@
-# Depuce Defence
-
-To install the map just unzip the file and put the Depuce_Defence folder in with your other maps which is most likely here: %userprofile%\Documents\My Games\Gas Powered Games\Supreme Commander Forged Alliance\Maps
-
-To play the map open the FAF client and go to the coop missions tab. Then double click any map in the left side bar. Setup you game with your settings (e.g game name, password and mods) and then click host game. When Forged Alliance loads into the lobby click options and then select Depuce Defence in the list. 
-
-Version: 2016.12.17.2
-- Removed all cutscenes playing in debug mode at the start
-
+# Depuce-Defence
 Version: 2016.12.17.1
 
 - Added a civilian town to the north east of your starting position
