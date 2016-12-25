@@ -12,7 +12,7 @@ local M3OrderAI = import('/maps/DePuce_Defence/DePuce_Defence_M3OrderAI.lua')
 local M3SeraphimAI = import('/maps/DePuce_Defence/DePuce_Defence_M3SeraphimAI.lua')
 local M2DePuceAI = import('/maps/DePuce_Defence/DePuce_Defence_M2DePuceAI.lua')
 local M2CivAI = import('/maps/DePuce_Defence/DePuce_Defence_M2CivAI.lua')
-local M4CybranAI = import('/maps/DePuce_Defence/DePuce_Defence_M4CybranAI.lua')
+local M4QAIAI = import('/maps/DePuce_Defence/DePuce_Defence_M4QAIAI.lua')
 local M4OrderAI = import('/maps/DePuce_Defence/DePuce_Defence_M4OrderAI.lua')
 local M4SeraphimAI = import('/maps/DePuce_Defence/DePuce_Defence_M4SeraphimAI.lua')
 local ScenarioPlatoonAI = import('/lua/ScenarioPlatoonAI.lua')
@@ -35,9 +35,12 @@ ACU10Dead = 0
 ACU11Dead = 0
 ACUDeathCounter = 0
 NukeWaitSecondsDifficultyMultiplier = {1.2,1,0.8}
+M2Started = false
+M4BaseSpawned = false
+M4Started = false
 
 -- Army IDs
-ScenarioInfo.Cybran = 1
+ScenarioInfo.QAI = 1
 ScenarioInfo.Order = 2
 ScenarioInfo.Seraphim = 3
 ScenarioInfo.Civilians = 4
@@ -50,13 +53,15 @@ ScenarioInfo.Player5 = 10
 ScenarioInfo.Player6 = 11
 
 -- Local Variables
-local Cybran = ScenarioInfo.Cybran
+local QAI = ScenarioInfo.QAI
 local Order = ScenarioInfo.Order
 local Seraphim = ScenarioInfo.Seraphim
 local Civilians = ScenarioInfo.Civilians
 local DePuce = ScenarioInfo.DePuce
 local Player1 = ScenarioInfo.Player1
+local M1Timer = 3000
 local M2Timer = 600
+local M3Timer = 3000
 local ScienceCentreDestroyed = false
 local NE_Centre_Destroyed = false
 
@@ -83,14 +88,14 @@ function OnPopulate(scenario)
     ScenarioFramework.SetSharedUnitCap(3600)
 	SetArmyUnitCap(Order, 4000)
 	SetArmyUnitCap(Seraphim, 4000)
-	SetArmyUnitCap(Cybran, 1500)
+	SetArmyUnitCap(QAI, 1500)
 	SetArmyUnitCap(DePuce, 2000)
 	SetArmyUnitCap(Civilians, 500)
 	SetArmyColor('DePuce', 128, 128, 180)
 	SetArmyColor('Civilians', 160, 30, 200)
 	SetArmyColor('Order', 159, 216, 2)
 	SetArmyColor('Seraphim', 167, 150, 2)
-	SetArmyColor('Cybran', 225, 70, 0)
+	SetArmyColor('QAI', 225, 70, 0)
 	ScenarioUtils.CreateArmyGroup('Civilians', 'North_East_Town')
 	ScenarioInfo.NE_Science_Building = ScenarioUtils.CreateArmyUnit('Civilians', 'NE_Science_Building')
 	ScenarioFramework.CreateUnitDestroyedTrigger(M3S1CentreDestroyed, ScenarioInfo.NE_Science_Building)
@@ -111,7 +116,9 @@ function OnStart()
     ForkThread(IntroMission1)
 	end
 
---Mission 1/
+-----------
+--Mission 1
+-----------
 
 function IntroMission1()
 	Cinematics.EnterNISMode()
@@ -123,11 +130,15 @@ function IntroMission1()
     Cinematics.ExitNISMode()
     ScenarioInfo.MissionNumber = 1
     if Debug then
-		ForkThread(All_Reminders)
+		--ForkThread(All_Reminders)
 		local DebugVisMarker = ScenarioFramework.CreateVisibleAreaLocation(3000, 'Debug_Vision_Marker', 0, ArmyBrains[Player1])
 		LOG("Debug Vision Marker Enabled")
+		M1Timer = 30
 		M2Timer = 20
+		M3Timer = 30
+		LOG("M1 hard mode timer set to ".. M1Timer .." seconds")
 		LOG("M2 Timer set to ".. M2Timer .." seconds")
+		LOG("M3 hard mode timer set to ".. M3Timer .." seconds")
     end
 	StartMission1()
 end
@@ -138,12 +149,12 @@ function StartMission1()
 	M1OrderAI.Order_M1_South_BaseAI(SpawnPlayerCDRTotal)
 	LOG("Players = " .. SpawnPlayerCDRTotal)
 	if Difficulty >=2 then
-		ScenarioUtils.CreateArmyGroup('Cybran', 'Cybran_Offscreen_Units_Medium')
+		ScenarioUtils.CreateArmyGroup('QAI', 'QAI_Offscreen_Units_Medium')
 		ScenarioUtils.CreateArmyGroup('Order', 'Order_Offscreen_Units_Medium')
 		ScenarioUtils.CreateArmyGroup('Seraphim', 'Seraphim_Offscreen_Units_Medium')
 		LOG("Off Screen Units Created")
 		if Difficulty >=3 then
-			ScenarioUtils.CreateArmyGroup('Cybran', 'Cybran_Offscreen_Units_Hard')
+			ScenarioUtils.CreateArmyGroup('QAI', 'QAI_Offscreen_Units_Hard')
 			ScenarioUtils.CreateArmyGroup('Order', 'Order_Offscreen_Units_Hard')
 			ScenarioUtils.CreateArmyGroup('Seraphim', 'Seraphim_Offscreen_Units_Hard')
 		end
@@ -174,20 +185,55 @@ function StartMission1()
     }
 )
 	ScenarioFramework.CreateTimerTrigger(M1P1Reminder1, 1500)
-	ScenarioFramework.CreateTimerTrigger(Generic_Reminder_1, 5040)
     LOG('Assigned Mission 1 Objective 1')
     ScenarioInfo.M1P1:AddResultCallback(
         function(result)
             if(result) then
-			    LOG('Objective Complete. Starting Mission 2')
 				M1OrderAI.DisableBase()
-				ScenarioFramework.Dialogue(OpStrings.M1_Complete, IntroMission2, true)
+				if not M2Started then
+					M2Started = true
+					LOG('Objective Complete. Starting Mission 2')
+					ScenarioFramework.Dialogue(OpStrings.M1_Complete, IntroMission2, true)
+				end
+				if Difficulty >= 3 then
+					ScenarioInfo.M1HT:ManualResult(true)
+				end
             end
         end
     )
 	table.insert(AssignedObjectives, ScenarioInfo.M1P1)
-	LOG('Starting Mission 2 Secondary Objective 1')
+	if Difficulty >= 3 then
+		--------------------------------
+		--Mission 1 Hard Objective Timer
+		--------------------------------
+		ScenarioInfo.M1HT = Objectives.Timer(
+			'primary',                      -- type
+			'incomplete',                   -- complete
+			'Complete the objective before the timer reaches zero',  -- title
+			'Intel suggests that we will need to proceed with the next stage of the mission when this timer runs out.',  -- description
+			{                               -- target
+				Timer = M1Timer,
+				ExpireResult = 'complete',
+			}
+	   )
+		ScenarioInfo.M1HT:AddResultCallback(
+			function(result)
+				if(result) then
+					if not M2Started then
+						M2Started = true
+						ScenarioFramework.Dialogue(OpStrings.Generic_Reminder_1)
+						ForkThread(IntroMission2)
+					end
+				end
+			end
+	   )
+		table.insert(AssignedObjectives, ScenarioInfo.M1HT)
+	end
 end
+
+-----------
+--Mission 2
+-----------
 
 function IntroMission2()
 	LOG('Intro Mission 2')
@@ -410,6 +456,10 @@ ScenarioInfo.M2P4 = Objectives.CategoriesInArea(
 	table.insert(AssignedObjectives, ScenarioInfo.M2P4)
 end
 
+-----------
+--Mission 3
+-----------
+
 function StartMission3()
     LOG('Starting Misson 3')
 	ScenarioFramework.SetPlayableArea('3RD_MISSION_AREA', true)
@@ -423,27 +473,27 @@ function StartMission3()
     ---------------------------------------------------------------
     --Mission 3 Primary Objective 1 - Destroy Order South East Base
     ---------------------------------------------------------------
-ScenarioInfo.M3P1 = Objectives.CategoriesInArea(
-    'primary',                      # type
-    'incomplete',                   # complete
-    'Destroy the Order south eastern base',    # title
-    'Eliminate the marked Order structures and units.',  # description
-    'kill',                         # action
-    {                               # target
-        MarkUnits = true,
-        FlashVisible = true,
-		ShowFaction = 'Aeon',
-        Requirements = {
-            {   
-                Area = 'Order_M3_South_East_Base_Area',
-                Category = categories.FACTORY + categories.ECONOMIC + categories.CONSTRUCTION + categories.uab4301 + categories.uab4302 + categories.uab3104,
-                CompareOp = '<=',
-                Value = 0,
-                ArmyIndex = Order,
-            },
-        },
-    }
-)
+	ScenarioInfo.M3P1 = Objectives.CategoriesInArea(
+		'primary',                      # type
+		'incomplete',                   # complete
+		'Destroy the Order south eastern base',    # title
+		'Eliminate the marked Order structures and units.',  # description
+		'kill',                         # action
+		{                               # target
+			MarkUnits = true,
+			FlashVisible = true,
+			ShowFaction = 'Aeon',
+			Requirements = {
+				{   
+					Area = 'Order_M3_South_East_Base_Area',
+					Category = categories.FACTORY + categories.ECONOMIC + categories.CONSTRUCTION + categories.uab4301 + categories.uab4302 + categories.uab3104,
+					CompareOp = '<=',
+					Value = 0,
+					ArmyIndex = Order,
+				},
+			},
+		}
+	)
     LOG('Assigned Mission 3 Objective 1')
     ScenarioInfo.M3P1:AddResultCallback(
         function(result)
@@ -451,11 +501,18 @@ ScenarioInfo.M3P1 = Objectives.CategoriesInArea(
 			    LOG("Objective Complete")
 				M3Counter = M3Counter + 1
 				M3OrderAI.DisableBase()
-				if M3Counter == 1 then
+				if not M4BaseSpawned then
+					M4BaseSpawned = true
 					ForkThread(SpawnMission4Base)
 				end
-				if M3Counter >= 2 then
-					ScenarioFramework.Dialogue(OpStrings.M3_complete, StartMission4, true)
+				if M3Counter == 2 then
+					if Difficulty >= 3 then
+						ScenarioInfo.M3HT:ManualResult(true)
+					end
+					if not M4Started then
+						M4Started = true
+						ScenarioFramework.Dialogue(OpStrings.M3_complete, StartMission4, true)
+					end
 				end
             end
         end
@@ -495,20 +552,65 @@ ScenarioInfo.M3P1 = Objectives.CategoriesInArea(
 			    LOG("Objective Complete")
 				M3Counter = M3Counter + 1
 				M3SeraphimAI.DisableBase()
-				if M3Counter == 1 then
+				if not M4BaseSpawned then
+					M4BaseSpawned = true
 					ForkThread(SpawnMission4Base)
 				end
-				if M3Counter >= 2 then
-					ScenarioFramework.Dialogue(OpStrings.M3_complete, StartMission4, true)
+				if M3Counter == 2 then
+					if Difficulty >= 3 then
+						ScenarioInfo.M3HT:ManualResult(true)
+					end
+					if not M4Started then
+						M4Started = true
+						ScenarioFramework.Dialogue(OpStrings.M3_complete, StartMission4, true)
+					end
 				end
             end
         end
     )
 	table.insert(AssignedObjectives, ScenarioInfo.M3P2)
+	if Difficulty >= 3 then
+		--------------------------------
+		--Mission 3 Hard Objective Timer
+		--------------------------------
+		ScenarioInfo.M3HT = Objectives.Timer(
+			'primary',                      -- type
+			'incomplete',                   -- complete
+			'Complete the objective before the timer reaches zero',  -- title
+			'Intel suggests that we will need to proceed with the next stage of the mission when this timer runs out.',  -- description
+			{                               -- target
+				Timer = M3Timer,
+				ExpireResult = 'complete',
+			}
+	   )
+		ScenarioInfo.M3HT:AddResultCallback(
+			function(result)
+				if(result) then
+					if not M4Started then
+						ScenarioFramework.Dialogue(OpStrings.Generic_Reminder_1)
+						LOG("M3 Timer Expired")
+						if not M4BaseSpawned then
+							M4BaseSpawned = true
+							ForkThread(SpawnMission4Base)
+						end
+						if not M4Started then
+							M4Started = true
+							ScenarioFramework.Dialogue(OpStrings.M3_complete, StartMission4, true)
+						end
+					end
+				end
+			end
+	   )
+		table.insert(AssignedObjectives, ScenarioInfo.M3HT)
+	end
 end
 
+-----------
+--Mission 4
+-----------
+
 function SpawnMission4Base()
-	M4CybranAI.Cybran_M4_BaseAI(SpawnPlayerCDRTotal)
+	M4QAIAI.QAI_M4_BaseAI(SpawnPlayerCDRTotal)
 	WaitSeconds(1)
 	M4SeraphimAI.Seraphim_M4_South_West_BaseAI(SpawnPlayerCDRTotal)
 	WaitSeconds(1)
@@ -541,11 +643,11 @@ function StartMission4()
 	M4OrderAI.Order_M4_South_East_Base_Land_Attacks(SpawnPlayerCDRTotal)
 	M4OrderAI.Order_M4_Galactic_Colossus(SpawnPlayerCDRTotal)
 	M4OrderAI.Order_M4_CZAR(SpawnPlayerCDRTotal)
-	M4CybranAI.Cybran_M4_Base_Land_Attacks(SpawnPlayerCDRTotal)
-	M4CybranAI.Cybran_M4_Base_Air_Attacks(SpawnPlayerCDRTotal)
+	M4QAIAI.QAI_M4_Base_Land_Attacks(SpawnPlayerCDRTotal)
+	M4QAIAI.QAI_M4_Base_Air_Attacks(SpawnPlayerCDRTotal)
 	ScenarioFramework.Dialogue(OpStrings.M4_intro1, nil, true)
     ScenarioInfo.MissionNumber = 4
-	ScenarioInfo.Angry_Command_Centre = ScenarioUtils.CreateArmyUnit('Cybran', 'Angry_Commander_Control_Centre')
+	ScenarioInfo.Angry_Command_Centre = ScenarioUtils.CreateArmyUnit('QAI', 'Angry_Commander_Control_Centre')
 	
     ScenarioInfo.OrderACU = ScenarioFramework.SpawnCommander('Order', 'Order_ACU', false, 'Cassandra', false, false, 
     {'Shield', 'ShieldHeavy', 'AdvancedEngineering', 'T3Engineering', 'HeatSink'})
@@ -553,28 +655,28 @@ function StartMission4()
     ScenarioInfo.SeraphimACU = ScenarioFramework.SpawnCommander('Seraphim', 'Seraphim_ACU', false, 'Thuum-Shavoh', false, false, 
     {'AdvancedEngineering', 'T3Engineering', 'RegenAura', 'AdvancedRegenAura', 'DamageStabilization', 'DamageStabilizationAdvanced'})
 	if Difficulty >= 3 then
-		ScenarioInfo.AngryACU1 = ScenarioFramework.SpawnCommander('Cybran', 'Angry_Commander1', false, 'Experimental Commander 1', false, false, 
+		ScenarioInfo.AngryACU1 = ScenarioFramework.SpawnCommander('QAI', 'Angry_Commander1', false, 'Experimental Commander 1', false, false, 
 		{'MicrowaveLaserGenerator', 'StealthGenerator', 'CloakingGenerator', 'CoolingUpgrade'})
 	
-		ScenarioInfo.AngryACU2 = ScenarioFramework.SpawnCommander('Cybran', 'Angry_Commander2', false, 'Experimental Commander 2', false, false, 
+		ScenarioInfo.AngryACU2 = ScenarioFramework.SpawnCommander('QAI', 'Angry_Commander2', false, 'Experimental Commander 2', false, false, 
 		{'MicrowaveLaserGenerator', 'StealthGenerator', 'CloakingGenerator', 'CoolingUpgrade'})
 	
-		ScenarioInfo.AngryACU3 = ScenarioFramework.SpawnCommander('Cybran', 'Angry_Commander3', false, 'Experimental Commander 3', false, false, 
+		ScenarioInfo.AngryACU3 = ScenarioFramework.SpawnCommander('QAI', 'Angry_Commander3', false, 'Experimental Commander 3', false, false, 
 		{'MicrowaveLaserGenerator', 'StealthGenerator', 'CloakingGenerator', 'CoolingUpgrade'})
 	
-		ScenarioInfo.AngryACU4 = ScenarioFramework.SpawnCommander('Cybran', 'Angry_Commander4', false, 'Experimental Commander 4', false, false, 
+		ScenarioInfo.AngryACU4 = ScenarioFramework.SpawnCommander('QAI', 'Angry_Commander4', false, 'Experimental Commander 4', false, false, 
 		{'MicrowaveLaserGenerator', 'StealthGenerator', 'CloakingGenerator', 'CoolingUpgrade'})
 	else
-		ScenarioInfo.AngryACU1 = ScenarioFramework.SpawnCommander('Cybran', 'Angry_Commander1', false, 'Experimental Commander 1', false, false, 
+		ScenarioInfo.AngryACU1 = ScenarioFramework.SpawnCommander('QAI', 'Angry_Commander1', false, 'Experimental Commander 1', false, false, 
 		{'MicrowaveLaserGenerator', 'ResourceAllocation', 'CoolingUpgrade'})
 		
-		ScenarioInfo.AngryACU2 = ScenarioFramework.SpawnCommander('Cybran', 'Angry_Commander2', false, 'Experimental Commander 2', false, false, 
+		ScenarioInfo.AngryACU2 = ScenarioFramework.SpawnCommander('QAI', 'Angry_Commander2', false, 'Experimental Commander 2', false, false, 
 		{'MicrowaveLaserGenerator', 'ResourceAllocation', 'CoolingUpgrade'})
 		
-		ScenarioInfo.AngryACU3 = ScenarioFramework.SpawnCommander('Cybran', 'Angry_Commander3', false, 'Experimental Commander 3', false, false, 
+		ScenarioInfo.AngryACU3 = ScenarioFramework.SpawnCommander('QAI', 'Angry_Commander3', false, 'Experimental Commander 3', false, false, 
 		{'MicrowaveLaserGenerator', 'ResourceAllocation', 'CoolingUpgrade'})
 		
-		ScenarioInfo.AngryACU4 = ScenarioFramework.SpawnCommander('Cybran', 'Angry_Commander4', false, 'Experimental Commander 4', false, false, 
+		ScenarioInfo.AngryACU4 = ScenarioFramework.SpawnCommander('QAI', 'Angry_Commander4', false, 'Experimental Commander 4', false, false, 
 		{'MicrowaveLaserGenerator', 'ResourceAllocation', 'CoolingUpgrade'})
 	end
 	ScenarioInfo.AngryACU1:SetVeterancy(5)
@@ -586,18 +688,18 @@ function StartMission4()
 	ScenarioInfo.AngryACU3:SetCanBeKilled( false )
 	ScenarioInfo.AngryACU4:SetCanBeKilled( false )
 	ScenarioFramework.SetPlayableArea('4TH_MISSION_AREA', true)
-	AICheats(Cybran, SpawnPlayerCDRTotal)
+	AICheats(QAI, SpawnPlayerCDRTotal)
 	AICheats(Order, SpawnPlayerCDRTotal)
 	AICheats(Seraphim, SpawnPlayerCDRTotal)
 	WaitSeconds(5)
     -------------------------------------------------------------------
-    --Mission 4 Primary Objective 1 - Destroy the cybran science centre
+    --Mission 4 Primary Objective 1 - Destroy the QAI science centre
     -------------------------------------------------------------------
     ScenarioInfo.M4P1 = Objectives.KillOrCapture(
         'primary',                      -- type
         'incomplete',                   -- complete
-        'Destroy the cybran science centre',  -- title
-        'Destroy the cybran science centre to make the experimental commanders killable',  -- description
+        'Destroy the QAI science centre',  -- title
+        'Destroy the QAI science centre to make the experimental commanders killable',  -- description
         {                               -- target
             Units = {ScenarioInfo.Angry_Command_Centre},
             MarkUnits = true,
@@ -790,6 +892,10 @@ function Destroyed_Science_Centre()
     )
     table.insert(AssignedObjectives, ScenarioInfo.M4P7)
 end
+
+---------------
+--Miscellaneous
+---------------
 
 function PlayerWin()
     ForkThread(
@@ -996,7 +1102,7 @@ function M2S1CentreCheck()
 			local platoon = ScenarioUtils.CreateArmyGroupAsPlatoon("Civilians", "Spy_Satellite", 'AttackFormation')
 			ScenarioFramework.PlatoonPatrolChain(platoon, "Spy_Satellite_Chain")
 			local OrderVisMarker = ScenarioFramework.CreateVisibleAreaLocation(100, 'Order_M4_South_East_Base_Marker', 0, ArmyBrains[Player1])			-- Creates a vision marker that is 100 in diameter at a specified marker that does not expire automatically for the first human player
-			local CybranVisMarker = ScenarioFramework.CreateVisibleAreaLocation(50, 'Cybran_M4_Base_Marker', 0, ArmyBrains[Player1])
+			local QAIVisMarker = ScenarioFramework.CreateVisibleAreaLocation(50, 'QAI_M4_Base_Marker', 0, ArmyBrains[Player1])
 			local SeraphimVisMarker = ScenarioFramework.CreateVisibleAreaLocation(100, 'Seraphim_M4_South_West_Base_Marker', 0, ArmyBrains[Player1])
 		end
 	end
@@ -1039,17 +1145,17 @@ end
 function SpawnAllACUs()
 	local tblArmy = ListArmies()
 	LOG("Spawning ACU")
-	for iArmy, strArmy in pairs(tblArmy) do														-- This command gets each value and puts the integer in iArmy and the string in strArmy then loops the function for every row in the table e.g value from table [1] => "Cybran" iArmy would be 1 and strArmy would be "Cybran" as that is the first entry in the table, the order the table is generated is in the same order as the armies appear in the scenario file.
+	for iArmy, strArmy in pairs(tblArmy) do														-- This command gets each value and puts the integer in iArmy and the string in strArmy then loops the function for every row in the table e.g value from table [1] => "QAI" iArmy would be 1 and strArmy would be "QAI" as that is the first entry in the table, the order the table is generated is in the same order as the armies appear in the scenario file.
 		if iArmy >= ScenarioInfo.Player1 then													-- Checks if iArmy is greater than or equal to the first human player
 			if SpawnPlayerCDR[iArmy] == 0 then													-- Check if the ACU has spawned if it has the it ends the function
 			Nickname = GetArmyBrain(strArmy).Nickname											-- Gets the Nickname (faf username) from the players army
 			factionIdx = GetArmyBrain(strArmy):GetFactionIndex()								-- Gets the faction value from the players army
-			if factionIdx >3 then factionIdx = 1 end											-- If the faction is greater than cybran (3) (as seraphim is 4) then it sets the faction as UEF (1)
+			if factionIdx >3 then factionIdx = 1 end											-- If the faction is greater than QAI (3) (as seraphim is 4) then it sets the faction as UEF (1)
 			strFactionIdx = tostring(factionIdx)												-- Creates a variable that converts the faction integer into a string value
 			if strArmy == 'Player1' then														-- If the army name is Player1 then it sets the army colour to someting based off the facton
 				if factionIdx ==1 then SetArmyColor('Player1', 41, 41, 225) end					-- If the player is UEF then set the army colour as blue
 				if factionIdx ==2 then SetArmyColor('Player1', 36, 182, 36) end					-- If the player is Aeon then set the army colour as green
-				if factionIdx ==3 then SetArmyColor('Player1', 231, 3, 3) end					-- If the player is Cybran then set the army colour as red
+				if factionIdx ==3 then SetArmyColor('Player1', 231, 3, 3) end					-- If the player is QAI then set the army colour as red
 			end
 			if strArmy == 'Player2' then
 				if factionIdx ==1 then SetArmyColor('Player2', 71, 114, 148) end
@@ -1123,16 +1229,6 @@ function M1P1Reminder1()
     end
 end
 
-function Generic_Reminder_1()
-        ScenarioFramework.Dialogue(OpStrings.Generic_Reminder_1)
-        ScenarioFramework.CreateTimerTrigger(Generic_Reminder_2, 2520)
-end
-
-function Generic_Reminder_2()
-    ScenarioFramework.Dialogue(OpStrings.Generic_Reminder_2)
-	ScenarioFramework.CreateTimerTrigger(Generic_Reminder_1, 2520)
-end
-
 function M3S1Reminder1()
     if(ScenarioInfo.M1P1.Active) then
         ScenarioFramework.Dialogue(OpStrings.M3S1_Reminder)
@@ -1203,24 +1299,22 @@ function Seraphim_Super_Nuke_Warning()
 	end
 end
 
-function All_Reminders()
-	M1P1Reminder1()
-	Generic_Reminder_1()
-	Generic_Reminder_2()
-	M3S1Reminder1()
-	M4P1Reminder1()
-	M4P2Reminder1()
-	M4P3Reminder1()
-	M4P3Reminder2()
-	ScenarioFramework.Dialogue(OpStrings.QAI_Angry_1)
-	ScenarioFramework.Dialogue(OpStrings.QAI_Angry_2)
-	ScenarioFramework.Dialogue(OpStrings.QAI_Angry_3)
-	ScenarioFramework.Dialogue(OpStrings.QAI_Angry_4)
-	ScenarioFramework.Dialogue(OpStrings.Seraphim_Super_Nuke_Warning)
-	ScenarioFramework.Dialogue(OpStrings.Nuke_Launched_Town)
-	ScenarioFramework.Dialogue(OpStrings.Order_Dead)
-	ScenarioFramework.Dialogue(OpStrings.Seraphim_Dead)
-end
+-- function All_Reminders()
+	-- M1P1Reminder1()
+	-- M3S1Reminder1()
+	-- M4P1Reminder1()
+	-- M4P2Reminder1()
+	-- M4P3Reminder1()
+	-- M4P3Reminder2()
+	-- ScenarioFramework.Dialogue(OpStrings.QAI_Angry_1)
+	-- ScenarioFramework.Dialogue(OpStrings.QAI_Angry_2)
+	-- ScenarioFramework.Dialogue(OpStrings.QAI_Angry_3)
+	-- ScenarioFramework.Dialogue(OpStrings.QAI_Angry_4)
+	-- ScenarioFramework.Dialogue(OpStrings.Seraphim_Super_Nuke_Warning)
+	-- ScenarioFramework.Dialogue(OpStrings.Nuke_Launched_Town)
+	-- ScenarioFramework.Dialogue(OpStrings.Order_Dead)
+	-- ScenarioFramework.Dialogue(OpStrings.Seraphim_Dead)
+-- end
 
 -- Prints tables in the game log. usage: print_r ( table ) e.g print_r ( ScenarioInfo.PlayerCDR )
 function print_r ( t )  

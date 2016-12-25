@@ -130,3 +130,11 @@ QAI_Angry_4 = {
 Player_Commander_Dead = {
   {text = '[HQ]: Commander? You there? Dammit.', vid = 'X06_HQ_DB01_04963.sfd', bank = 'Briefings', cue = 'X06_HQ_DB01_04963', faction = 'NONE'},
 }
+
+Debriefing_Win = {
+    {text = '[Seraphim]: The UEF research station has been destroyed.', faction = 'Seraphim'},
+}
+
+Debriefing_Lose = {
+    {text = '[Seraphim]: You failed.', faction = 'Seraphim'},
+}
