@@ -23,7 +23,7 @@ local OpStrings = import('/maps/DePuce_Defence/DePuce_Defence_strings.lua')
 
 -- Global Variables
 ObjCounter = 0
-MapVersionNumber = "2016.12.28.2 BETA V3"
+MapVersionNumber = "2016.12.31.2 BETA V4"
 ScenarioInfo.PlayerCDR = {}
 SpawnPlayerCDRTotal = 0
 ACUDeathCounter = 0
@@ -950,6 +950,7 @@ function StartMission4()
 	ScenarioInfo.M4S1:AddResultCallback(
 		function(result)
 			if(result) then
+				SeraphimNorthBaseAI.DisableBase()
 			end
 		end
 	)
