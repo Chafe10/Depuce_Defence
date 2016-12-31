@@ -5,60 +5,59 @@ local ScenarioPlatoonAI = import('/lua/ScenarioPlatoonAI.lua')
 local ScenarioUtils = import('/lua/sim/ScenarioUtilities.lua')
 local Buff = import('/lua/sim/Buff.lua')
 
-local Civ_Science_Facility = BaseManager.CreateBaseManager()
+local Science_Facility_Equium_Base = BaseManager.CreateBaseManager()
 local Difficulty = ScenarioInfo.Options.Difficulty
-local UnitModifier = {2,1,0.5}
-local Civilians = 4
+local Science_Facility_Equium = 4
 
-function Civ_Science_Facility_BaseAI()
-    Civ_Science_Facility:Initialize(ArmyBrains[Civilians], 'Civ_Science_Facility', 'Civ_Science_Facility_Marker', 40, {Civ_Science_Facility = 600})
-    Civ_Science_Facility:StartNonZeroBase({{4,3,2}, {2,1,1}})
-    Civ_Science_Facility:SetActive('AirScouting', false)
-    Civ_Science_Facility:SetActive('LandScouting', false)
+function Science_Facility_Equium_BaseAI()
+    Science_Facility_Equium_Base:Initialize(ArmyBrains[Science_Facility_Equium], 'Science_Facility_Equium_Base', 'Science_Facility_Equium_Marker', 40, {Science_Facility_Equium_Base = 330})
+    Science_Facility_Equium_Base:StartNonZeroBase({{2,2,2}, {2,2,2}})
+    Science_Facility_Equium_Base:SetActive('AirScouting', false)
+    Science_Facility_Equium_Base:SetActive('LandScouting', false)
 end
 
-function Civ_Science_Facility_Patrol()
-	Civ_Science_Facility:SetActive('AirScouting', true)
+function Science_Facility_Equium_Base_Patrol()
+	Science_Facility_Equium_Base:SetActive('AirScouting', true)
     local opai = nil
 	local Temp = {
-		'Civ_Science_Facility_Patrol_Template_1',
+		'Science_Facility_Equium_Base_Patrol_Template_1',
 		'NoPlan',
 		{ 'delk002', 1, 1, 'Attack', 'GrowthFormation' },   # T3 AA
 		
 	}
 	local Builder = {
-		BuilderName = 'Civ_Science_Facility_Patrol_Builder_1',
+		BuilderName = 'Science_Facility_Equium_Base_Patrol_Builder_1',
 		PlatoonTemplate = Temp,
 		InstanceCount = 1,
 		Priority = 320,
 		PlatoonType = 'Land',
 		RequiresConstruction = true,
-		LocationType = 'Civ_Science_Facility',
+		LocationType = 'Science_Facility_Equium_Base',
 		PlatoonAIFunction = {SPAIFileName, 'PatrolChainPickerThread'},     
 		PlatoonData = {
 			PatrolChains = {'Civilian_M2_Patrol_1'}
 		},
 	}
-	ArmyBrains[Civilians]:PBMAddPlatoon( Builder )
+	ArmyBrains[Science_Facility_Equium]:PBMAddPlatoon( Builder )
 	
 	local Temp = {
-		'Civ_Science_Facility_Patrol_Template_2',
+		'Science_Facility_Equium_Base_Patrol_Template_2',
 		'NoPlan',
 		{ 'delk002', 1, 1, 'Attack', 'GrowthFormation' },   # T3 AA
 		
 	}
 	local Builder = {
-		BuilderName = 'Civ_Science_Facility_Patrol_Builder_2',
+		BuilderName = 'Science_Facility_Equium_Base_Patrol_Builder_2',
 		PlatoonTemplate = Temp,
 		InstanceCount = 1,
 		Priority = 310,
 		PlatoonType = 'Land',
 		RequiresConstruction = true,
-		LocationType = 'Civ_Science_Facility',
+		LocationType = 'Science_Facility_Equium_Base',
 		PlatoonAIFunction = {SPAIFileName, 'PatrolChainPickerThread'},     
 		PlatoonData = {
 			PatrolChains = {'Civilian_M2_Patrol_2'}
 		},
 	}
-	ArmyBrains[Civilians]:PBMAddPlatoon( Builder )
+	ArmyBrains[Science_Facility_Equium]:PBMAddPlatoon( Builder )
 end

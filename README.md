@@ -4,6 +4,22 @@ To install the map just unzip the file and put the Depuce_Defence folder in with
 
 To play the map open the FAF client and go to the coop missions tab. Then double click any map in the left side bar. Setup you game with your settings (e.g game name, password and mods) and then click host game. When Forged Alliance loads into the lobby click options and then select Depuce Defence in the list.
 
+Version: 2016.12.31.1
+- Added a northern Seraphim base. The base attacks you during Missions 3 and 4
+- Reduced the area size for Missions 1,2,3 due to the new base
+- Removed all ground attacks for southern bases
+- Added additional units in the Order and Seraphim attacks in Mission 2 in certain circumstances
+- Made the experimental commanders in Mission 4 not take damange untill the QAI science center is destroyed
+- Reworked debug mode so that player commanders and depuce don't take damage
+- Moved Science Facility Bulwark due to the new seraphim base
+- Renamed Civilians to Science_Facility_Eqiuim
+- Created a new faction for Science_Facility_Bulwark
+- Added a secondary objective to destroy the northern base in Mission 4
+- Changed the objective for killing the experimental commanders from killing indivual commanders to killing units in area
+- Redid the markers and chains on the map
+- Added videos and audio for Depuce
+- Experimental land units no longer attack from the south
+
 Version: 2016.12.24.1
 - Shrunk the map from 81kmx81km to 40kmx40km to improve performance
 - Added DePuce_Defence_operation.lua for the new feedback feature

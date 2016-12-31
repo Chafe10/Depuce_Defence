@@ -14,7 +14,6 @@ local Order = 2
 function Order_M4_South_East_BaseAI(PlayerCount)
     Order_M4_South_East_Base:Initialize(ArmyBrains[Order], 'Order_M4_South_East_Base', 'Order_M4_South_East_Base_Marker', 90, {Order_M4_South_East_Base = 600})
     Order_M4_South_East_Base:StartNonZeroBase({{10,16,24}, {6,10,16}})
-    Order_M4_South_East_Base:SetActive('AirScouting', false)
 	Order_M4_South_East_Base_Patrol(PlayerCount)
     end
 
@@ -182,7 +181,7 @@ function Order_M4_South_East_Base_Land_Attacks(PlayerCount)
 	ArmyBrains[Order]:PBMAddPlatoon( Builder )
 end
 
-function Order_M4_Galactic_Colossus(PlayerCount)
+function Order_M4_Galactic_Colossus()
     local opai = nil
     local quantity = {}
 
@@ -207,20 +206,6 @@ function Order_M4_Galactic_Colossus(PlayerCount)
             PlatoonAIFunction = {SPAIFileName, 'RandomDefensePatrolThread'},
             PlatoonData = {
                 PatrolChain = 'Order_M4_Galactic_Colossus_Defence_2',
-            },
-            MaxAssist = 2*UnitModifier[Difficulty],
-            Retry = true,
-        }
-    )
-	
-    -- Galactic Colossus Attack
-    opai = Order_M4_South_East_Base:AddOpAI('Order_M4_Galactic_Colossus_1',
-        {
-            Amount = (2+PlayerCount/2)*UnitModifier[Difficulty],
-            KeepAlive = true,
-            PlatoonAIFunction = {SPAIFileName, 'PatrolChainPickerThread'},
-            PlatoonData = {
-                PatrolChains = {'Order_M4_Land_Attack_Chain_1', 'Order_M4_Land_Attack_Chain_2'},
             },
             MaxAssist = 2*UnitModifier[Difficulty],
             Retry = true,
@@ -252,9 +237,4 @@ function DisableBase()
         Order_M4_South_East_Base:BaseActive(false)
         LOG('Order_M4_South_East_Base Disabled')
     end
-    for _, platoon in ArmyBrains[Order]:GetPlatoonsList() do
-        platoon:Stop()
-        ArmyBrains[Order]:DisbandPlatoon(platoon)
-    end
-    LOG('All Order Platoons stopped')
 end

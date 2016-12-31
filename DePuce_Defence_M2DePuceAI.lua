@@ -9,7 +9,7 @@ local DePuce_Base = BaseManager.CreateBaseManager()
 local Difficulty = ScenarioInfo.Options.Difficulty
 local WaitForAttackSecondsMultiplier = {0.8,1,1.2}
 local UnitModifier = {2,1,0.5}
-local DePuce = 5
+local DePuce = 6
 
 function DePuce_BaseAI()
     DePuce_Base:Initialize(ArmyBrains[DePuce], 'DePuce_Base', 'DePuce_Base_Marker', 150, {DePuce_Base = 30})

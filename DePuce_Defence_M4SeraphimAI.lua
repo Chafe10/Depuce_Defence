@@ -14,7 +14,6 @@ local Seraphim = 3
 function Seraphim_M4_South_West_BaseAI(PlayerCount)
     Seraphim_M4_South_West_Base:Initialize(ArmyBrains[Seraphim], 'Seraphim_M4_South_West_Base', 'Seraphim_M4_South_West_Base_Marker', 90, {Seraphim_M4_South_West_Base = 600})
     Seraphim_M4_South_West_Base:StartNonZeroBase({{5,6,10}, {3,4,6}})
-    Seraphim_M4_South_West_Base:SetActive('AirScouting', false)
 	Seraphim_M4_South_West_Base_Patrol(PlayerCount)
 end
 
@@ -36,58 +35,6 @@ function Seraphim_M4_South_West_Base_Patrol(PlayerCount)
 		PlatoonAIFunction = {SPAIFileName, 'PatrolChainPickerThread'},     
 		PlatoonData = {
 			PatrolChains = {'Seraphim_M4_Patrol'}
-		},
-	}
-	ArmyBrains[Seraphim]:PBMAddPlatoon( Builder )
-end
-	
-
-function Seraphim_M4_South_West_Base_Land_Attacks(PlayerCount)
-    local opai = nil
-	local Temp = {
-		'Seraphim_M4_South_West_Base_Land_Attack_Template_1',
-		'NoPlan',
-		{ 'xsl0307', 1, (4+PlayerCount/2)*UnitModifier[Difficulty], 'Attack', 'GrowthFormation' },  # T3 Shield Generator
-		{ 'xsl0303', 1, (8+PlayerCount)*UnitModifier[Difficulty], 'Attack', 'GrowthFormation' },  # T3 T3 Siege Tank
-		{ 'dslk004', 1, (8+PlayerCount/2)*UnitModifier[Difficulty], 'Attack', 'GrowthFormation' },  # T3 Lightning Tank
-		{ 'xsl0202', 1, (4+PlayerCount)*UnitModifier[Difficulty], 'Attack', 'GrowthFormation' },  # T2 Assualt Bot
-		
-	}
-	local Builder = {
-		BuilderName = 'Seraphim_M4_South_West_Base_Land_Attack_Builder_1',
-		PlatoonTemplate = Temp,
-		InstanceCount = 3,
-		Priority = 230,
-		PlatoonType = 'Land',
-		RequiresConstruction = true,
-		LocationType = 'Seraphim_M4_South_West_Base',
-		PlatoonAIFunction = {SPAIFileName, 'PatrolChainPickerThread'},     
-		PlatoonData = {
-			PatrolChains = {'Seraphim_M4_Land_Attack_Chain_1', 'Seraphim_M4_Land_Attack_Chain_2'}
-		},
-	}
-	ArmyBrains[Seraphim]:PBMAddPlatoon( Builder )
-	
-	local Temp = {
-		'Seraphim_M4_South_West_Base_Land_Attack_Template_2',
-		'NoPlan',
-		{ 'xsl0307', 1, (4+PlayerCount/2)*UnitModifier[Difficulty], 'Attack', 'GrowthFormation' },   # T3 Shield Generator
-		{ 'xsl0205', 1, (4+PlayerCount/2)*UnitModifier[Difficulty], 'Attack', 'GrowthFormation' },   # T2 AA		
-		{ 'dslk004', 1, (4+PlayerCount/2)*UnitModifier[Difficulty], 'Attack', 'GrowthFormation' },   # T3 Lightning Tank
-		{ 'xsl0303', 1, (2+PlayerCount/2)*UnitModifier[Difficulty], 'Attack', 'GrowthFormation' },   # T3 Seige Tank
-		{ 'xsl0305', 1, (6+PlayerCount/2)*UnitModifier[Difficulty], 'Attack', 'GrowthFormation' },   # T3 Sniper Bot
-	}
-	local Builder = {
-		BuilderName = 'Seraphim_M4_South_West_Base_Land_Attack_Builder_2',
-		PlatoonTemplate = Temp,
-		InstanceCount = 2,
-		Priority = 220,
-		PlatoonType = 'Land',
-		RequiresConstruction = true,
-		LocationType = 'Seraphim_M4_South_West_Base',
-		PlatoonAIFunction = {SPAIFileName, 'PatrolChainPickerThread'},     
-		PlatoonData = {
-			PatrolChains = {'Seraphim_M4_Land_Attack_Chain_1', 'Seraphim_M4_Land_Attack_Chain_2'}
 		},
 	}
 	ArmyBrains[Seraphim]:PBMAddPlatoon( Builder )
@@ -169,19 +116,6 @@ function Seraphim_M4_Ythotha(PlayerCount)
             Retry = true,
         }
     )
-    -- Ythotha Attack
-    opai = Seraphim_M4_South_West_Base:AddOpAI('Seraphim_M4_Ythotha_1',
-        {
-            Amount = (2+PlayerCount/2)*UnitModifier[Difficulty],
-            KeepAlive = true,
-            PlatoonAIFunction = {SPAIFileName, 'PatrolChainPickerThread'},
-            PlatoonData = {
-                PatrolChains = {'Seraphim_M4_Land_Attack_Chain_1', 'Seraphim_M4_Land_Attack_Chain_2'},
-            },
-            MaxAssist = 2*UnitModifier[Difficulty],
-            Retry = true,
-        }
-    )
 end
 
 function Seraphim_M4_Ahwassa(PlayerCount)
@@ -208,9 +142,4 @@ function DisableBase()
         Seraphim_M4_South_West_Base:BaseActive(false)
         LOG('Seraphim_M4_South_West_Base Disabled')
     end
-    for _, platoon in ArmyBrains[Seraphim]:GetPlatoonsList() do
-        platoon:Stop()
-        ArmyBrains[Seraphim]:DisbandPlatoon(platoon)
-    end
-    LOG('All Seraphim Platoons stopped')
 end

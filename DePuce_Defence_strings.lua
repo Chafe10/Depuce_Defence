@@ -36,7 +36,7 @@ M3_complete = {
 }
 
 M4_intro1 = {
-	{text = '[HQ] Commander we have discovered multiple ACU signatures in your area, one Seraphim one Order, the rest are unknown. Intel suggests that Cybran are testing new experimental units. Taking out their science centre should interupt them.', vid = 'E03_EarthCom_M01_0121.sfd', bank = '', cue = '', faction = 'UEF'},
+	{text = '[HQ] Commander we have discovered multiple ACU signatures in your area, one Seraphim one Order, the rest are unknown. Intel suggests that Cybran are testing new experimental units. Taking out their Science Facility should interupt them.', vid = 'E03_EarthCom_M01_0121.sfd', bank = '', cue = '', faction = 'UEF'},
 	{text = '[HQ] Intel also suggests that the Seraphim have Experimental Strategic Missile Launchers and the Order have deployed heavy artillery. HQ out.', vid = 'E03_EarthCom_M01_0121.sfd', bank = '', cue = '', faction = 'UEF'},
 }
 
@@ -45,7 +45,7 @@ M4_intro3 = {
 }
 
 M2S1_complete = {
-	{text = '[HQ] Well done! The science centre has been defended! They have been working on a spy satellite. They will deploy it ASAP. HQ out.', vid = 'E03_EarthCom_M01_0121.sfd', bank = '', cue = '', faction = 'UEF'},
+	{text = '[HQ] Well done! Science Facility Equium has been defended! They have been working on a spy satellite. They will deploy it ASAP. HQ out.', vid = 'E03_EarthCom_M01_0121.sfd', bank = '', cue = '', faction = 'UEF'},
 }
 
 -- Objective Reminders
@@ -111,8 +111,12 @@ Seraphim_Super_Nuke_Warning = {
   {text = '[HQ]: Detecting a power surge, Commander. Scans show that the Seraphim is constructing a massive strategic missile launcher. You\'d better get some strategic missile defenses around your base. HQ out.', vid = 'X06_HQ_M03_03987.sfd', bank = 'X06_VO', cue = 'X06_HQ_M03_03987', faction = 'NONE'},
 }
 
-QAI_Angry_1= {
+QAI_Centre_Destroyed= {
   {text = '[QAI]: Your efforts will be for -- what are you doing? That is not possible.', vid = 'X02_QAI_T01_04564.sfd', bank = 'X05_VO', cue = 'X05_QAI_M03_04450', faction = 'Cybran'},
+}
+
+QAI_Angry_1 = {
+  {text = '[QAI]: This is just a shell.', vid = 'X02_QAI_D01_03179.sfd', bank = 'DD', cue = 'QAIThisisjustashell2', faction = 'Cybran'},
 }
 
 QAI_Angry_2 = {
@@ -132,9 +136,33 @@ Player_Commander_Dead = {
 }
 
 Debriefing_Win = {
-    {text = '[Seraphim]: The UEF research station has been destroyed.', faction = 'Seraphim'},
+    {text = '[HQ]: Well done! Commander DePuce has been defended and is very grateful for you assistance.', faction = 'UEF'},
 }
 
 Debriefing_Lose = {
-    {text = '[Seraphim]: You failed.', faction = 'Seraphim'},
+    {text = '[HQ]: DePuce cumbled to the enemy forces and the planet was lost to the seraphim.', faction = 'UEF'},
+}
+
+M3S1_complete = {
+	{text = '[HQ] Well done! Science Facility Bulwark has been defended! They have been working on a defence satellite. They will deploy it ASAP. HQ out.', vid = 'E03_EarthCom_M01_0121.sfd', bank = '', cue = '', faction = 'UEF'},
+}
+
+DePuce_Angry = {
+	{text = '[CDR DePuce] Aaaaaarrgh! My stupid troops can\'t... won\'t... didn\'t follow my foolproof plan!', vid = 'DePuce_Angry.sfd', bank = 'DD', cue = 'DePuceAngry', faction = 'UEF'},
+}
+
+DePuce_Win = {
+	{text = '[CDR DePuce] My plans worked perfectly. So! My glorious army triumphs again!', vid = 'DePuce_Smug.sfd', bank = 'DD', cue = 'DePuceWin', faction = 'UEF'},
+}
+
+DePuce_Death = {
+	{text = '[CDR DePuce] No! no, not little Ratty. It wasn\'t me. It was the others, they made me do it!', vid = 'DePuce_Plead.sfd', bank = 'DD', cue = 'DePuceDeath', faction = 'UEF'},
+}
+
+DePuceWorried1 = {
+	{text = '[CDR DePuce] Things are going well, a-aren\'t they? Yes, erm, I think... I think they must be, eh?', vid = 'DePuce_Scared_1.sfd', bank = 'DD', cue = 'DePuceWorried1', faction = 'UEF'},
+}
+
+DePuceWorried2 = {
+	{text = '[CDR DePuce] No need to panic, Ratty... no need to... panic, stay calm, STAY CALM!', vid = 'DePuce_Scared_2.sfd', bank = 'DD', cue = 'DePuceWorried2', faction = 'UEF'},
 }

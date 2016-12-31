@@ -1,6 +1,6 @@
 version = 3
 ScenarioInfo = {
-    name = 'DePuce Defence BETA V2',
+    name = 'DePuce Defence BETA V3',
     description = 'Defend Commander DePuce from enemy forces and slaughter any foe that tries to attack him.',
     type = 'campaign_coop',
     starts = true,
@@ -10,14 +10,16 @@ ScenarioInfo = {
     save = '/maps/DePuce_Defence/DePuce_Defence_save.lua',
     script = '/maps/DePuce_Defence/DePuce_Defence_script.lua',
     norushradius = 0.000000,
-    norushoffsetX_Cybran = 0.000000,
-    norushoffsetY_Cybran = 0.000000,
+    norushoffsetX_QAI = 0.000000,
+    norushoffsetY_QAI = 0.000000,
     norushoffsetX_Order = 0.000000,
     norushoffsetY_Order = 0.000000,
     norushoffsetX_Seraphim = 0.000000,
     norushoffsetY_Seraphim = 0.000000,
-    norushoffsetX_Civilians = 0.000000,
-    norushoffsetY_Civilians = 0.000000,
+    norushoffsetX_Science_Facility_Equium = 0.000000,
+    norushoffsetY_Science_Facility_Equium = 0.000000,
+    norushoffsetX_Science_Facility_Bulwark = 0.000000,
+    norushoffsetY_Science_Facility_Bulwark = 0.000000,
     norushoffsetX_DePuce = 0.000000,
     norushoffsetY_DePuce = 0.000000,
     norushoffsetX_Player1 = 0.000000,
@@ -35,7 +37,7 @@ ScenarioInfo = {
     Configurations = {
         ['standard'] = {
             teams = {
-                { name = 'FFA', armies = {'QAI','Order','Seraphim','Civilians','DePuce','Player1','Player2','Player3','Player4','Player5','Player6',} },
+                { name = 'FFA', armies = {'QAI','Order','Seraphim','Science_Facility_Equium','Science_Facility_Bulwark','DePuce','Player1','Player2','Player3','Player4','Player5','Player6',} },
             },
             customprops = {
             },

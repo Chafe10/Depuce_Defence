@@ -14,7 +14,6 @@ local QAI = 1
 function QAI_M4_BaseAI(PlayerCount)
     QAI_M4_Base:Initialize(ArmyBrains[QAI], 'QAI_M4_Base', 'QAI_M4_Base_Marker', 50, {QAI_M4_Base = 600})
     QAI_M4_Base:StartNonZeroBase({{5,6,10}, {3,4,6}})
-    QAI_M4_Base:SetActive('AirScouting', false)
 	QAI_M4_Patrols(PlayerCount)
 end
 
@@ -35,53 +34,6 @@ function QAI_M4_Patrols(PlayerCount)
 		PlatoonAIFunction = {SPAIFileName, 'PatrolChainPickerThread'},     
 		PlatoonData = {
 			PatrolChains = {'QAI_M4_Patrol'}
-		},
-	}
-	ArmyBrains[QAI]:PBMAddPlatoon( Builder )
-end
-
-
-function QAI_M4_Base_Land_Attacks(PlayerCount)
-	local Temp = {
-		'QAI_Land_Attack1',
-		'NoPlan',
-		{ 'xrl0305', 1, (6+PlayerCount/2)*UnitModifier[Difficulty], 'Attack', 'GrowthFormation' },   # Brick
-		{ 'url0303', 1, (6+PlayerCount)*UnitModifier[Difficulty], 'Attack', 'GrowthFormation' },   # Loyalist
-		{ 'drlk001', 1, (2+PlayerCount/2)*UnitModifier[Difficulty], 'Attack', 'GrowthFormation' },   # T3 Scorpion AA
-	}
-	local Builder = {
-		BuilderName = 'QAI_Land_Attack_Builder1',
-		PlatoonTemplate = Temp,
-		InstanceCount = 2,
-		Priority = 110,
-		PlatoonType = 'Land',
-		RequiresConstruction = true,
-		LocationType = 'QAI_M4_Base',
-		PlatoonAIFunction = {SPAIFileName, 'PatrolChainPickerThread'},     
-		PlatoonData = {
-			PatrolChains = {'QAI_M4_Land_Attack_Chain_1', 'QAI_M4_Land_Attack_Chain_2'}
-		},
-	}
-	ArmyBrains[QAI]:PBMAddPlatoon( Builder )
-	
-	local Temp = {
-		'QAI_Land_Attack2',
-		'NoPlan',
-		{ 'xrl0305', 1, (2+PlayerCount/2)*UnitModifier[Difficulty], 'Attack', 'GrowthFormation' },   # Brick
-		{ 'drlk001', 1, (2+PlayerCount/2)*UnitModifier[Difficulty], 'Attack', 'GrowthFormation' },   # T3 Scorpion AA
-		{ 'url0304', 1, (6+PlayerCount/2)*UnitModifier[Difficulty], 'Attack', 'GrowthFormation' },   # T3 Mobile Arty
-	}
-	local Builder = {
-		BuilderName = 'QAI_Land_Attack_Builder2',
-		PlatoonTemplate = Temp,
-		InstanceCount = 2,
-		Priority = 100,
-		PlatoonType = 'Land',
-		RequiresConstruction = true,
-		LocationType = 'QAI_M4_Base',
-		PlatoonAIFunction = {SPAIFileName, 'PatrolChainPickerThread'},     
-		PlatoonData = {
-			PatrolChains = {'QAI_M4_Land_Attack_Chain_1', 'QAI_M4_Land_Attack_Chain_2'}
 		},
 	}
 	ArmyBrains[QAI]:PBMAddPlatoon( Builder )
