@@ -5,6 +5,7 @@ To install the map just unzip the file and put the Depuce_Defence folder in with
 To play the map open the FAF client and go to the coop missions tab. Then double click any map in the left side bar. Setup you game with your settings (e.g game name, password and mods) and then click host game. When Forged Alliance loads into the lobby click options and then select Depuce Defence in the list.
 
 Version: 2016.12.31.2
+- When the northen base gets destroyed it deactivates
 
 Version: 2016.12.31.1
 - Added a northern Seraphim base. The base attacks you during Missions 3 and 4
