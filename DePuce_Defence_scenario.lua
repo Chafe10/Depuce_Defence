@@ -1,6 +1,6 @@
 version = 3
 ScenarioInfo = {
-    name = 'DePuce Defence BETA V3',
+    name = 'DePuce Defence BETA V4',
     description = 'Defend Commander DePuce from enemy forces and slaughter any foe that tries to attack him.',
     type = 'campaign_coop',
     starts = true,

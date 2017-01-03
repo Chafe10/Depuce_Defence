@@ -4,6 +4,8 @@ To install the map just unzip the file and put the Depuce_Defence folder in with
 
 To play the map open the FAF client and go to the coop missions tab. Then double click any map in the left side bar. Setup you game with your settings (e.g game name, password and mods) and then click host game. When Forged Alliance loads into the lobby click options and then select Depuce Defence in the list.
 
+I would reccomend deleting any old versions of the map as it might contain unused files.
+
 Version: 2017.01.02.1
 - Revised the assaults in Mission 2
 
