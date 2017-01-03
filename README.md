@@ -16,14 +16,14 @@ Version: 2016.12.31.1
 - Removed all ground attacks for southern bases
 - Added additional units in the Order and Seraphim attacks in Mission 2 in certain circumstances
 - Made the experimental commanders in Mission 4 not take damage until the QAI science center is destroyed
-- Reworked debug mode so that player commanders and depuce don't take damage
+- Reworked debug mode so that player commanders and DePuce don't take damage
 - Moved Science Facility Bulwark due to the new seraphim base
 - Renamed Civilians to Science_Facility_Eqiuim
 - Created a new faction for Science_Facility_Bulwark
 - Added a secondary objective to destroy the northern base in Mission 4
-- Changed the objective for killing the experimental commanders from killing indivual commanders to killing units in area
+- Changed the objective for killing the experimental commanders from killing individual commanders to killing units in area
 - Redid the markers and chains on the map
-- Added videos and audio for Depuce
+- Added videos and audio for DePuce
 - Experimental land units no longer attack from the south
 
 Version: 2016.12.24.1
