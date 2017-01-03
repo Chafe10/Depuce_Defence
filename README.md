@@ -4,6 +4,9 @@ To install the map just unzip the file and put the Depuce_Defence folder in with
 
 To play the map open the FAF client and go to the coop missions tab. Then double click any map in the left side bar. Setup you game with your settings (e.g game name, password and mods) and then click host game. When Forged Alliance loads into the lobby click options and then select Depuce Defence in the list.
 
+Version: 2017.01.02.1
+- Revised the assaults in Mission 2
+
 Version: 2016.12.31.2
 - When the northen base gets destroyed it deactivates
 
@@ -21,9 +24,8 @@ Version: 2016.12.31.1
 - Changed the objective for killing the experimental commanders from killing indivual commanders to killing units in area
 - Redid the markers and chains on the map
 - Added videos and audio for Depuce
-- Experimental land units no longer attack from the south
-
-Version: 2016.12.24.1
+- Experimental land units no longer attack from the southcrdaz	\6ti8fvo/['-/0]
+6Version: 2016.12.24.1
 - Shrunk the map from 81kmx81km to 40kmx40km to improve performance
 - Added DePuce_Defence_operation.lua for the new feedback feature
 - Renamed Cybran to QAI
@@ -56,7 +58,8 @@ Version: 2016.11.28.1
 - Ai now builds experimentals in 4th part of the mission
 - Improved commander spawner to not be reliant on human players being in the correct order
 - Added a system that makes things harder when more human players are in the game
-- Removed mobile shields from Order in the 1st part of the mission
+- Removed mobile shields from Order in the 1st part of the mission'568
++
 - Revised the amount of units sent throughout the mission due to performance
 - Changed the way bases spawn
 - Minor change to the Seraphim base in the 4th part of the mission to let experimentals out

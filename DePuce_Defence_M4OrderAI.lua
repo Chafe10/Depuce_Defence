@@ -237,4 +237,9 @@ function DisableBase()
         Order_M4_South_East_Base:BaseActive(false)
         LOG('Order_M4_South_East_Base Disabled')
     end
+    for _, platoon in ArmyBrains[Order]:GetPlatoonsList() do
+        platoon:Stop()
+        ArmyBrains[Order]:DisbandPlatoon(platoon)
+    end
+    LOG('All Order Platoons stopped')
 end

@@ -178,9 +178,4 @@ function DisableBase()
         Seraphim_North_Base:BaseActive(false)
         LOG('Seraphim_North_Base Disabled')
     end
-    for _, platoon in ArmyBrains[Seraphim]:GetPlatoonsList() do
-        platoon:Stop()
-        ArmyBrains[Seraphim]:DisbandPlatoon(platoon)
-    end
-    LOG('All Seraphim Platoons stopped')
 end

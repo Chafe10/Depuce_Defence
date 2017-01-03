@@ -23,7 +23,7 @@ local OpStrings = import('/maps/DePuce_Defence/DePuce_Defence_strings.lua')
 
 -- Global Variables
 ObjCounter = 0
-MapVersionNumber = "2016.12.31.2 BETA V4"
+MapVersionNumber = "2017.01.02.1 BETA V4"
 ScenarioInfo.PlayerCDR = {}
 SpawnPlayerCDRTotal = 0
 ACUDeathCounter = 0
@@ -230,7 +230,7 @@ function StartMission1()
 				Timer = M1Timer,
 				ExpireResult = 'failed',
 			}
-	   )
+	    )
 		ScenarioInfo.M1HT:AddResultCallback(
 			function(result)
 				if not (result) then
@@ -242,7 +242,7 @@ function StartMission1()
 					end
 				end
 			end
-	   )
+	    )
 		table.insert(AssignedObjectives, ScenarioInfo.M1HT)
 	end
 end
@@ -282,7 +282,7 @@ function StartMission2a()
 			Timer = M2Timer,
 			ExpireResult = 'complete',
 		}
-   )
+    )
 	ScenarioInfo.M2P1:AddResultCallback(
 		function(result)
 			if(result) then
@@ -294,7 +294,7 @@ function StartMission2a()
 				end
 			end
 		end
-   )
+    )
 	table.insert(AssignedObjectives, ScenarioInfo.M2P1)
 	WaitSeconds(5)
 	-----------------------------------------------
@@ -310,7 +310,7 @@ function StartMission2a()
 			MarkUnits = true,
 			Units = {ScenarioInfo.DePuceACU},
 		}
-   )
+    )
 	table.insert(AssignedObjectives, ScenarioInfo.M2P2)
 	# Secondary Objectives
 	WaitSeconds(5)
@@ -344,56 +344,11 @@ function M2ProtectCivScience()
 end
 
 function StartMission2b()
-	LOG('Starting Mission 2 Part 2/3')
-    local platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Scout_1', 'AttackFormation')
+    local platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Scout', 'GrowthFormation')
     ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
-
-	platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Scout_2', 'AttackFormation')
+	platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Scout', 'GrowthFormation')
     ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_4')
-	
-	platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Air_Assault_Easy', 'AttackFormation')
-    ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
-	WaitSeconds(1)
-	if Difficulty >=2 then
-		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Air_Assault_Medium', 'AttackFormation')
-		ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
-		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Air_Assault_EXP_Med', 'AttackFormation')
-		ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
-		if SpawnPlayerCDRTotal >=2 then
-			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Air_Assault_Med_More_Than_2', 'AttackFormation')
-			ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
-		end
-		if SpawnPlayerCDRTotal >=4 then
-			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Air_Assault_Med_More_Than_2', 'AttackFormation')
-			ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_4')
-			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Air_Assault_Easy', 'AttackFormation')
-			ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_4')
-		end
-	end
-	WaitSeconds(1)
-	if Difficulty >=3 then
-		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Air_Assault_Hard', 'AttackFormation')
-		ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
-		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Air_Assault_EXP_Hard', 'AttackFormation')
-		ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
-		if SpawnPlayerCDRTotal >=2 then
-			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Air_Assault_Hard_More_Than_2', 'AttackFormation')
-			ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
-			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Air_Assault_EXP_Hard_More_Than_2', 'AttackFormation')
-			ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
-		end
-		if SpawnPlayerCDRTotal >=4 then
-			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Air_Assault_Hard_More_Than_2', 'AttackFormation')
-			ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_4')
-			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Air_Assault_EXP_Hard_More_Than_2', 'AttackFormation')
-			ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_4')
-			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Air_Assault_Medium', 'AttackFormation')
-			ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_4')
-		end
-	end
-	WaitSeconds(1)
-	M3OrderAI.Order_M3_South_East_BaseAI(SpawnPlayerCDRTotal)
-	WaitSeconds(1)
+	LOG('Starting Mission 2 Part 2/3')
     ---------------------------------------------------------------
     --Mission 2 Primary Objective 3 - Survive the Order Air Assualt
     ---------------------------------------------------------------
@@ -438,7 +393,6 @@ function StartMission2b()
     )
 	table.insert(AssignedObjectives, ScenarioInfo.M2P3)
 	WaitSeconds(1)
-	M3SeraphimAI.Seraphim_M3_South_West_BaseAI(SpawnPlayerCDRTotal)
 	if Difficulty >= 3 then
 		--------------------------------
 		--Mission 2B Hard Objective Timer
@@ -452,7 +406,7 @@ function StartMission2b()
 				Timer = M2BTimer,
 				ExpireResult = 'failed',
 			}
-	   )
+	    )
 		ScenarioInfo.M2BHT:AddResultCallback(
 			function(result)
 				if not (result) then
@@ -465,54 +419,102 @@ function StartMission2b()
 					end
 				end
 			end
-	   )
+	    )
 		table.insert(AssignedObjectives, ScenarioInfo.M2BHT)
 	end
+	-- M2 Order Assult Easy
+	platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_ASF', 'GrowthFormation')
+    ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+	platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Strat', 'GrowthFormation')
+    ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+	if SpawnPlayerCDRTotal >=2 then
+		--More than 1 Player
+		WaitSeconds(3)
+		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_ASF', 'GrowthFormation')
+		ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Strat', 'GrowthFormation')
+		ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+	end
+	if SpawnPlayerCDRTotal >=4 then
+		--More than 3 Players
+		WaitSeconds(3)
+		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_ASF', 'GrowthFormation')
+		ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Strat', 'GrowthFormation')
+		ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_EXP', 'GrowthFormation')
+		ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+	end
+	-- M2 Order Assult Medium
+	if Difficulty >=2 then
+		WaitSeconds(4)
+		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_ASF', 'GrowthFormation')
+		ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Strat', 'GrowthFormation')
+		ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+		if SpawnPlayerCDRTotal >=2 then
+			--More than 1 Player
+			WaitSeconds(4)
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_ASF', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Strat', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_EXP', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+		end
+		if SpawnPlayerCDRTotal >=4 then
+			--More than 3 Players
+			WaitSeconds(4)
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_ASF', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Strat', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_EXP', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+		end
+	end
+	-- M2 Order Assult Hard
+	if Difficulty >=3 then
+		WaitSeconds(4)
+		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_ASF', 'GrowthFormation')
+		ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Strat', 'GrowthFormation')
+		ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_EXP', 'GrowthFormation')
+		ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+		if SpawnPlayerCDRTotal >=2 then
+			--More than 1 Player
+			WaitSeconds(4)
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_ASF', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Strat', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_EXP', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+		end
+		if SpawnPlayerCDRTotal >=4 then
+			--More than 3 Players
+			WaitSeconds(4)
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_ASF', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_Strat', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Order', 'Order_M2_EXP', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Order_M3_Air_Attack_Chain_1')
+		end
+	end
+	WaitSeconds(1)
+	M3OrderAI.Order_M3_South_East_BaseAI(SpawnPlayerCDRTotal)
+	WaitSeconds(1)
+	M3SeraphimAI.Seraphim_M3_South_West_BaseAI(SpawnPlayerCDRTotal)
 end
 	
 function StartMission2c()
 	LOG('Starting Mission 2 Part 3/3')
-	local platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Air_Assault_Easy', 'AttackFormation')
-	ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
-	WaitSeconds(1)
-	if Difficulty >=2 then
-		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Air_Assault_Medium', 'AttackFormation')
-		ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
-		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Air_Assault_EXP_Medium', 'AttackFormation')
-		ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
-		if SpawnPlayerCDRTotal >=2 then
-			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Air_Assault_Med_More_Than_2', 'AttackFormation')
-			ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
-		end
-		if SpawnPlayerCDRTotal >=4 then
-			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Air_Assault_Med_More_Than_2', 'AttackFormation')
-			ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
-			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Air_Assault_Easy', 'AttackFormation')
-			ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
-		end
-	end
-	WaitSeconds(1)
-	if Difficulty >=3 then
-		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Air_Assault_Hard', 'AttackFormation')
-		ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
-		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Air_Assault_EXP_Hard', 'AttackFormation')
-		ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
-		if SpawnPlayerCDRTotal >=2 then
-			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Air_Assault_Hard_More_Than_2', 'AttackFormation')
-			ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
-			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Air_Assault_EXP_Hard_More_Than_2', 'AttackFormation')
-			ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
-		end
-		if SpawnPlayerCDRTotal >=4 then
-			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Air_Assault_Hard_More_Than_2', 'AttackFormation')
-			ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
-			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Air_Assault_EXP_Hard_More_Than_2', 'AttackFormation')
-			ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
-			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Air_Assault_Medium', 'AttackFormation')
-			ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
-		end
-	end	
-	WaitSeconds(1)
+    local platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Scout', 'GrowthFormation')
+    ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+	platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Scout', 'GrowthFormation')
+    ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_2')
 	--------------------------------------------------------------
 	--Mission 2 Primary Objective 4 - Survive the Seraphim Assualt
 	--------------------------------------------------------------
@@ -569,7 +571,7 @@ function StartMission2c()
 				Timer = M2CTimer,
 				ExpireResult = 'failed',
 			}
-	   )
+	    )
 		ScenarioInfo.M2CHT:AddResultCallback(
 			function(result)
 				if not (result) then
@@ -581,8 +583,89 @@ function StartMission2c()
 					end
 				end
 			end
-	   )
+	    )
 		table.insert(AssignedObjectives, ScenarioInfo.M2CHT)
+	end
+	-- M2 Seraphim Assult Easy
+	platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_ASF', 'GrowthFormation')
+    ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+	platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Strat', 'GrowthFormation')
+    ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+	if SpawnPlayerCDRTotal >=2 then
+		--More than 1 Player
+		WaitSeconds(2)
+		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_ASF', 'GrowthFormation')
+		ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Strat', 'GrowthFormation')
+		ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+	end
+	if SpawnPlayerCDRTotal >=4 then
+		--More than 3 Players
+		WaitSeconds(2)
+		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_ASF', 'GrowthFormation')
+		ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Strat', 'GrowthFormation')
+		ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_EXP', 'GrowthFormation')
+		ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+	end
+	-- M2 Seraphim Assult Medium
+	if Difficulty >=2 then
+		WaitSeconds(2)
+		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_ASF', 'GrowthFormation')
+		ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Strat', 'GrowthFormation')
+		ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+		if SpawnPlayerCDRTotal >=2 then
+			--More than 1 Player
+			WaitSeconds(2)
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_ASF', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Strat', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_EXP', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+		end
+		if SpawnPlayerCDRTotal >=4 then
+			--More than 3 Players
+			WaitSeconds(2)
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_ASF', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Strat', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_EXP', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+		end
+	end
+	-- M2 Seraphim Assult Hard
+	if Difficulty >=3 then
+		WaitSeconds(2)
+		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_ASF', 'GrowthFormation')
+		ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Strat', 'GrowthFormation')
+		ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+		platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_EXP', 'GrowthFormation')
+		ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+		if SpawnPlayerCDRTotal >=2 then
+			--More than 1 Player
+			WaitSeconds(2)
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_ASF', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Strat', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_EXP', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+		end
+		if SpawnPlayerCDRTotal >=4 then
+			--More than 3 Players
+			WaitSeconds(2)
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_ASF', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_Strat', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+			platoon = ScenarioUtils.CreateArmyGroupAsPlatoon('Seraphim', 'Seraphim_M2_EXP', 'GrowthFormation')
+			ScenarioFramework.PlatoonPatrolChain(platoon, 'Seraphim_M3_Air_Attack_Chain_1')
+		end
 	end
 end
 
@@ -722,7 +805,7 @@ function StartMission3()
 					Timer = M3Timer,
 					ExpireResult = 'failed',
 				}
-		   )
+		    )
 			ScenarioInfo.M3HT:AddResultCallback(
 				function(result)
 					if not (result) then
@@ -741,7 +824,7 @@ function StartMission3()
 						end
 					end
 				end
-		   )
+		    )
 			table.insert(AssignedObjectives, ScenarioInfo.M3HT)
 		end
 	end
