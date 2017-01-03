@@ -8,14 +8,14 @@ Version: 2017.01.02.1
 - Revised the assaults in Mission 2
 
 Version: 2016.12.31.2
-- When the northen base gets destroyed it deactivates
+- When the northern base gets destroyed it deactivates
 
 Version: 2016.12.31.1
 - Added a northern Seraphim base. The base attacks you during Missions 3 and 4
 - Reduced the area size for Missions 1,2,3 due to the new base
 - Removed all ground attacks for southern bases
 - Added additional units in the Order and Seraphim attacks in Mission 2 in certain circumstances
-- Made the experimental commanders in Mission 4 not take damange untill the QAI science center is destroyed
+- Made the experimental commanders in Mission 4 not take damage until the QAI science center is destroyed
 - Reworked debug mode so that player commanders and depuce don't take damage
 - Moved Science Facility Bulwark due to the new seraphim base
 - Renamed Civilians to Science_Facility_Eqiuim
@@ -24,8 +24,9 @@ Version: 2016.12.31.1
 - Changed the objective for killing the experimental commanders from killing indivual commanders to killing units in area
 - Redid the markers and chains on the map
 - Added videos and audio for Depuce
-- Experimental land units no longer attack from the southcrdaz	\6ti8fvo/['-/0]
-6Version: 2016.12.24.1
+- Experimental land units no longer attack from the south
+
+Version: 2016.12.24.1
 - Shrunk the map from 81kmx81km to 40kmx40km to improve performance
 - Added DePuce_Defence_operation.lua for the new feedback feature
 - Renamed Cybran to QAI
@@ -58,8 +59,7 @@ Version: 2016.11.28.1
 - Ai now builds experimentals in 4th part of the mission
 - Improved commander spawner to not be reliant on human players being in the correct order
 - Added a system that makes things harder when more human players are in the game
-- Removed mobile shields from Order in the 1st part of the mission'568
-+
+- Removed mobile shields from Order in the 1st part of the mission
 - Revised the amount of units sent throughout the mission due to performance
 - Changed the way bases spawn
 - Minor change to the Seraphim base in the 4th part of the mission to let experimentals out
