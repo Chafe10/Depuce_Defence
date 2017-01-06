@@ -6,6 +6,12 @@ To play the map open the FAF client and go to the coop missions tab. Then double
 
 I would reccomend deleting any old versions of the map as it might contain unused files.
 
+Version: 2017.01.06.1
+- Army colour now reflects the colour you have chosen in the lobby
+- Changed colours for the following players: DePuce, Science_Facility_Bulwark, Science_Facility_Eqiuim
+- When you start the mission the camera zooms into your armies ACU instead of in the middle of the four mass spots
+- The camera zooms in slower in the intro
+
 Version: 2017.01.02.1
 - Revised the assaults in Mission 2
 

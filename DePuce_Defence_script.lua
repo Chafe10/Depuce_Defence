@@ -23,7 +23,7 @@ local OpStrings = import('/maps/DePuce_Defence/DePuce_Defence_strings.lua')
 
 -- Global Variables
 ObjCounter = 0
-MapVersionNumber = "2017.01.02.1 BETA V4"
+MapVersionNumber = "2017.01.06.1 BETA V5"
 ScenarioInfo.PlayerCDR = {}
 SpawnPlayerCDRTotal = 0
 ACUDeathCounter = 0
@@ -34,6 +34,9 @@ M3Started = false
 M4BaseSpawned = false
 M4Started = false
 MissionFailed = false
+ArmyColours = {{r=67, g=110, b=238},{r=232, g=10, b=10},{r=97, g=109, b=126},{r=250, g=250, b=0},{r=255, g=135, b=62},{r=255, g=255, b=255},{r=145, g=97, b=255},{r=255, g=136, b=255},{r=46, g=139, b=87},{r=19, g=28, b=211},{r=95, g=1, b=167},{r=255, g=50, b=255},{r=255, g=191, b=128},{r=183, g=101, b=24},{r=144, g=20, b=39},{r=47, g=79, b=79},{r=64, g=191, b=64},{r=102, g=255, b=204},}
+ArmySetup = ScenarioInfo.ArmySetup
+
 
 -- Army IDs
 ScenarioInfo.QAI = 1
@@ -91,9 +94,9 @@ function OnPopulate(scenario)
 	SetArmyUnitCap(DePuce, 2000)
 	SetArmyUnitCap(Science_Facility_Equium, 150)
 	SetArmyUnitCap(Science_Facility_Bulwark, 150)
-	SetArmyColor('DePuce', 128, 128, 180)
-	SetArmyColor('Science_Facility_Equium', 160, 30, 200)
-	SetArmyColor('Science_Facility_Bulwark', 160, 30, 200)
+	SetArmyColor('DePuce', 71, 114, 148)
+	SetArmyColor('Science_Facility_Equium', 16, 16, 86)
+	SetArmyColor('Science_Facility_Bulwark', 16, 16, 86)
 	SetArmyColor('Order', 159, 216, 2)
 	SetArmyColor('Seraphim', 167, 150, 2)
 	SetArmyColor('QAI', 225, 70, 0)
@@ -132,11 +135,14 @@ end
 
 function IntroMission1()
 	Cinematics.EnterNISMode()
+	tblArmy = ListArmies()
+	local strCameraPlayer = tostring(tblArmy[GetFocusArmy()])						-- Converts the value from the table to string
+	local CameraMarker = strCameraPlayer .. "Cam"									-- Concatenates the value with Cam. This is a camera info marker that is placed through the editor. e.g Player1Cam
 	ForkThread(SpawnAllACUs)
 	local VisMarker2 = ScenarioFramework.CreateVisibleAreaLocation(30, 'Order_M1_South_Base_Marker', 3, ArmyBrains[Player1])
-	Cinematics.CameraMoveToMarker(ScenarioUtils.GetMarker('Start_ACU_Camera_2'), 0)
+	Cinematics.CameraMoveToMarker(ScenarioUtils.GetMarker('Start_ACU_Camera'), 0)
 	ScenarioFramework.Dialogue(OpStrings.M1_Intro, nil, true)
-	Cinematics.CameraMoveToMarker(ScenarioUtils.GetMarker('Start_ACU_Camera_1'), 2)
+	Cinematics.CameraMoveToMarker(ScenarioUtils.GetMarker(CameraMarker), 4)
     Cinematics.ExitNISMode()
     ScenarioInfo.MissionNumber = 1
     if Debug then
@@ -1279,7 +1285,7 @@ function LaunchNuke(Army, NukeLauncherUnitID, Marker)											-- Examples of u
 end
 
 function SpawnAllACUs()
-	local tblArmy = ListArmies()
+	SpawnPlayerCDRTotal = SpawnPlayerCDRTotal + 1
 	LOG("Spawning ACU")
 	for iArmy, strArmy in pairs(tblArmy) do														-- This command gets each value and puts the integer in iArmy and the string in strArmy then loops the function for every row in the table e.g value from table [1] => "QAI" iArmy would be 1 and strArmy would be "QAI" as that is the first entry in the table, the order the table is generated is in the same order as the armies appear in the scenario file.
 		if iArmy >= ScenarioInfo.Player1 then													-- Checks if iArmy is greater than or equal to the first human player
@@ -1288,42 +1294,30 @@ function SpawnAllACUs()
 		if factionIdx >3 then factionIdx = 1 end											-- If the faction is greater than QAI (3) (as seraphim is 4) then it sets the faction as UEF (1)
 		strFactionIdx = tostring(factionIdx)												-- Creates a variable that converts the faction integer into a string value
 		if strArmy == 'Player1' then														-- If the army name is Player1 then it sets the army colour to someting based off the facton
-			if factionIdx ==1 then SetArmyColor('Player1', 41, 41, 225) end					-- If the player is UEF then set the army colour as blue
-			if factionIdx ==2 then SetArmyColor('Player1', 36, 182, 36) end					-- If the player is Aeon then set the army colour as green
-			if factionIdx ==3 then SetArmyColor('Player1', 231, 3, 3) end					-- If the player is QAI then set the army colour as red
+			ArmyColourNum = ScenarioInfo.ArmySetup.Player1.ArmyColor
 		end
 		if strArmy == 'Player2' then
-			if factionIdx ==1 then SetArmyColor('Player2', 71, 114, 148) end
-			if factionIdx ==2 then SetArmyColor('Player2', 16, 86, 16) end
-			if factionIdx ==3 then SetArmyColor('Player2', 255, 170, 170) end
+			ArmyColourNum = ScenarioInfo.ArmySetup.Player2.ArmyColor
 		end
 		if strArmy == 'Player3' then
-			if factionIdx ==1 then SetArmyColor('Player3', 133, 148, 255) end
-			if factionIdx ==2 then SetArmyColor('Player3', 102, 153, 0) end
-			if factionIdx ==3 then SetArmyColor('Player3', 255, 102, 153) end
+			ArmyColourNum = ScenarioInfo.ArmySetup.Player3.ArmyColor
 		end
 		if strArmy == 'Player4' then
-			if factionIdx ==1 then SetArmyColor('Player4', 41, 40, 140) end
-			if factionIdx ==2 then SetArmyColor('Player4', 0, 255, 0) end
-			if factionIdx ==3 then SetArmyColor('Player4', 165, 40, 40) end
+			ArmyColourNum = ScenarioInfo.ArmySetup.Player4.ArmyColor
 		end
 		if strArmy == 'Player5' then
-			if factionIdx ==1 then SetArmyColor('Player5', 0, 51, 153) end
-			if factionIdx ==2 then SetArmyColor('Player5', 46, 139, 87) end
-			if factionIdx ==3 then SetArmyColor('Player5', 80, 10, 10) end
+			ArmyColourNum = ScenarioInfo.ArmySetup.Player5.ArmyColor
 		end
 		if strArmy == 'Player6' then
-			if factionIdx ==1 then SetArmyColor('Player6', 0, 0, 102) end
-			if factionIdx ==2 then SetArmyColor('Player6', 180, 255, 180) end
-			if factionIdx ==3 then SetArmyColor('Player6', 255, 100, 100) end
+			ArmyColourNum = ScenarioInfo.ArmySetup.Player6.ArmyColor
 		end
+		SetArmyColor(strArmy, ArmyColours[ArmyColourNum].r, ArmyColours[ArmyColourNum].g, ArmyColours[ArmyColourNum].b)
 			ScenarioInfo.PlayerCDR[iArmy] = ScenarioFramework.SpawnCommander(strArmy, strFactionIdx, 'Warp', 'CDR '..Nickname, true, PlayerDeath)
 			if Debug then														-- Check if Debug = true
 				ScenarioUtils.CreateArmyGroup(strArmy, 'Debug')					-- Creates the debug base
 				AICheats(strArmy, nil, 100)											-- Sets cheat rate for the player
 				ScenarioInfo.PlayerCDR[iArmy]:SetCanTakeDamage(false)
 			end
-			SpawnPlayerCDRTotal = SpawnPlayerCDRTotal + 1
 		end
 	end
 end
